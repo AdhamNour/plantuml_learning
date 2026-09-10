@@ -1,4 +1,4 @@
-@startuml CAFI/CAFO complaint architecture Architecture
+@startuml CRM Architecture
 
 skinparam rectangle {
   BackgroundColor<<crm_core>> #1565C0
@@ -16,9 +16,9 @@ skinparam shadowing false
 
 rectangle "CRM" as boundary #line.dashed {
   rectangle "CRM" as CRM <<crm_core>>
+  rectangle "CRM Internal ETL" as ETL <<crm_core>>
   rectangle "CRM API" as API <<crm_api>>
 }
-rectangle "Data Team External ETL" as ETL <<Data Team>>
 
 file "CAFI\n(.csv)" as CAFI
 rectangle "Croatia SFTP\nServer Directory" as SFTP <<sftp>>
