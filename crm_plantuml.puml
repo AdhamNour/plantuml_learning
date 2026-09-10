@@ -1,4 +1,5 @@
-@startuml CRM Architecture
+@startuml CRM_Architecture
+title CRM Architecture
 
 skinparam rectangle {
   BackgroundColor<<crm_core>> #1565C0
@@ -13,16 +14,18 @@ skinparam rectangle {
 
 skinparam defaultFontName Arial
 skinparam shadowing false
+skinparam nodesep 45
+skinparam ranksep 55
 
-rectangle "CRM" as boundary #line.dashed {
+rectangle "CRM System" as boundary #line.dashed {
   rectangle "CRM" as CRM <<crm_core>>
   rectangle "CRM Internal ETL" as ETL <<crm_core>>
   rectangle "CRM API" as API <<crm_api>>
 }
 
-file "CAFI\n(.csv)" as CAFI
-rectangle "Croatia SFTP\nServer Directory" as SFTP <<sftp>>
 file "CAFO\n(.csv)" as CAFO
+rectangle "Croatia SFTP\nServer Directory" as SFTP <<sftp>>
+file "CAFI\n(.csv)" as CAFI
 
 rectangle "CRM Adapter" as Adapter <<external>>
 rectangle "Payment Service" as Payment <<external>>
