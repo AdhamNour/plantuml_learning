@@ -2,6 +2,7 @@
 
 hide stereotype
 
+
 skinparam rectangle {
   BackgroundColor<<crm_core>> #1565C0
   FontColor<<crm_core>> white
@@ -31,21 +32,21 @@ skinparam nodesep 140
 skinparam ranksep 130
 
 rectangle "CRM System" as crmBoundary #line.dashed {
-  rectangle "CRM Database" as CRM <<crm_core>>
+  database "<&hard-drive>CRM Database" as CRM <<crm_core>>
   ' rectangle "CRM API" as API <<crm_api>>
 }
 
 rectangle "Data Team" as dataBoundary #line.dashed {
   rectangle "Data Platform ETL" as ETL <<etl>>
   file "CAFI\n(.csv)" as CAFI
-  database "Data Platform Server" as OOS <<objectstore>>
+  database "Data\nPlatform\nServer" as OOS <<objectstore>>
 }
 
 database "Croatia SFTP\nServer Directory" as SFTP <<sftp>>
 file "CAFO\n(.csv)" as CAFO
 
-rectangle "CRM Adapter" as Adapter <<external>>
-rectangle "Payment Service" as Payment <<external>>
+' rectangle "CRM Adapter" as Adapter <<external>>
+' rectangle "Payment Service" as Payment <<external>>
 
 ' CRM <-> ETL flows
 CRM -up-> ETL : Fetch Claims
