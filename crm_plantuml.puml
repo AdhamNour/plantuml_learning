@@ -13,8 +13,10 @@ skinparam rectangle {
   FontColor<<external>> #212121
 }
 skinparam database {
-  BackgroundColor #D9B44A
-  FontColor #212121
+  BackgroundColor<<sftp>> #D9B44A
+  FontColor<<sftp>> #212121
+  BackgroundColor<<objectstore>> #C74634
+  FontColor<<objectstore>> white
 }
 skinparam file {
   BackgroundColor #D6D6E0
@@ -35,9 +37,10 @@ rectangle "CRM" as crmBoundary #line.dashed {
 rectangle "Data Team" as dataBoundary #line.dashed {
   rectangle "Airflow ETL" as ETL <<etl>>
   file "CAFI\n(.csv)" as CAFI
+  database "Oracle\nObject Storage" as OOS <<objectstore>>
 }
 
-database "Croatia SFTP\nServer Directory" as SFTP
+database "Croatia SFTP\nServer Directory" as SFTP <<sftp>>
 file "CAFO\n(.csv)" as CAFO
 
 rectangle "CRM Adapter" as Adapter <<external>>
@@ -60,6 +63,9 @@ SFTP --> ETL : Read File\n/Upload/CAFO/
 
 ' CAFO on SFTP
 CAFO --> SFTP
+
+' Archive copies retained by the ETL
+ETL --> OOS : Archive Copy Of\nCAFI & CAFO
 
 ' External flows
 Adapter --> API : Update Fund\nTransfer Status
