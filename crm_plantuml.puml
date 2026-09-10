@@ -7,6 +7,8 @@ skinparam rectangle {
   FontColor<<crm_core>> white
   BackgroundColor<<crm_api>> #90CAF9
   FontColor<<crm_api>> #0D47A1
+  BackgroundColor<<etl>> #1565C0
+  FontColor<<etl>> white
   BackgroundColor<<external>> #BDBDBD
   FontColor<<external>> #212121
 }
@@ -22,14 +24,17 @@ skinparam file {
 skinparam defaultFontName Arial
 skinparam shadowing false
 skinparam ArrowColor #333333
-skinparam nodesep 40
+skinparam nodesep 70
 skinparam ranksep 50
 
-rectangle "CRM" as boundary #line.dashed {
+rectangle "CRM" as crmBoundary #line.dashed {
   rectangle "CRM" as CRM <<crm_core>>
-  rectangle "CRM Internal ETL" as ETL <<crm_core>>
-  file "CAFI\n(.csv)" as CAFI
   rectangle "CRM API" as API <<crm_api>>
+}
+
+rectangle "Data Team" as dataBoundary #line.dashed {
+  rectangle "Airflow ETL" as ETL <<etl>>
+  file "CAFI\n(.csv)" as CAFI
 }
 
 database "Croatia SFTP\nServer Directory" as SFTP
@@ -38,20 +43,20 @@ file "CAFO\n(.csv)" as CAFO
 rectangle "CRM Adapter" as Adapter <<external>>
 rectangle "Payment Service" as Payment <<external>>
 
-' Internal ETL flows
-CRM -right-> ETL : Fetch Claims
-CRM <-up- ETL : Update Claim Status
+' CRM <-> ETL flows
+CRM --> ETL : Fetch Claims
+ETL --> CRM : Update Claim Status
 
 ' CRM <-> API
-CRM -down-> API
-API -up-> CRM
+CRM --> API
+API --> CRM
 
 ' File generation and SFTP
-ETL -right-> CAFI : Generate
+ETL --> CAFI : Generate
 CAFI --> SFTP : Save To\n/Upload/CAFI/
 
 ' SFTP back to ETL
-SFTP -left-> ETL : Read File\n/Upload/CAFO/
+SFTP --> ETL : Read File\n/Upload/CAFO/
 
 ' CAFO on SFTP
 CAFO --> SFTP
