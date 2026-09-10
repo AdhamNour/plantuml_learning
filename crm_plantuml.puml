@@ -13,8 +13,6 @@ skinparam rectangle {
   FontColor<<external>> #212121
 }
 skinparam database {
-  BackgroundColor<<crm_core>> #1565C0
-  FontColor<<crm_core>> white
   BackgroundColor<<sftp>> #D9B44A
   FontColor<<sftp>> #212121
   BackgroundColor<<objectstore>> #C74634
@@ -33,7 +31,7 @@ skinparam nodesep 140
 skinparam ranksep 130
 
 rectangle "CRM System" as crmBoundary #line.dashed {
-  database "CRM Database" as CRM <<crm_core>>
+  rectangle "<size:32><&hard-drive></size>\nCRM Database" as CRM <<crm_core>>
   ' rectangle "CRM API" as API <<crm_api>>
 }
 
