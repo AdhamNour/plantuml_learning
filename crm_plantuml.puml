@@ -30,15 +30,15 @@ skinparam ArrowColor #333333
 skinparam nodesep 140
 skinparam ranksep 130
 
-rectangle "CRM" as crmBoundary #line.dashed {
-  rectangle "CRM" as CRM <<crm_core>>
-  rectangle "CRM API" as API <<crm_api>>
+rectangle "CRM System" as crmBoundary #line.dashed {
+  rectangle "CRM Database" as CRM <<crm_core>>
+  ' rectangle "CRM API" as API <<crm_api>>
 }
 
 rectangle "Data Team" as dataBoundary #line.dashed {
-  rectangle "Airflow ETL" as ETL <<etl>>
+  rectangle "Data Platform ETL" as ETL <<etl>>
   file "CAFI\n(.csv)" as CAFI
-  database "Oracle\nObject Storage" as OOS <<objectstore>>
+  database "Data Platform Server" as OOS <<objectstore>>
 }
 
 database "Croatia SFTP\nServer Directory" as SFTP <<sftp>>
@@ -52,8 +52,8 @@ CRM -up-> ETL : Fetch Claims
 ETL -down-> CRM : Update Claim Status
 
 ' CRM <-> API
-CRM -down-> API
-API -up-> CRM
+' CRM -down-> API
+' API -up-> CRM
 
 ' File generation and SFTP
 ETL -right-> CAFI : Generate
@@ -69,7 +69,7 @@ CAFO -down-> SFTP
 ETL -left-> OOS : Archive Copy Of\nCAFI & CAFO
 
 ' External flows
-Adapter -up-> API : Update Fund\nTransfer Status
-Payment -up-> API : Fund Transfer
+' Adapter -up-> API : Update Fund\nTransfer Status
+' Payment -up-> API : Fund Transfer
 
 @enduml
