@@ -1,0 +1,52 @@
+@startuml CAFI/CAFO complaint architecture Architecture
+
+skinparam rectangle {
+  BackgroundColor<<crm_core>> #1565C0
+  FontColor<<crm_core>> white
+  BackgroundColor<<crm_api>> #90CAF9
+  FontColor<<crm_api>> #0D47A1
+  BackgroundColor<<sftp>> #F9A825
+  FontColor<<sftp>> white
+  BackgroundColor<<external>> #BDBDBD
+  FontColor<<external>> #212121
+}
+
+skinparam defaultFontName Arial
+skinparam shadowing false
+
+rectangle "CRM" as boundary #line.dashed {
+  rectangle "CRM" as CRM <<crm_core>>
+  rectangle "CRM API" as API <<crm_api>>
+}
+rectangle "Data Team External ETL" as ETL <<Data Team>>
+
+file "CAFI\n(.csv)" as CAFI
+rectangle "Croatia SFTP\nServer Directory" as SFTP <<sftp>>
+file "CAFO\n(.csv)" as CAFO
+
+rectangle "CRM Adapter" as Adapter <<external>>
+rectangle "Payment Service" as Payment <<external>>
+
+' Internal ETL flows
+CRM --> ETL : Fetch Claims
+ETL --> CRM : Update Claim Status
+
+' CRM <-> API
+CRM <--> API
+
+' File generation and SFTP
+ETL --> CAFI : Generate
+CAFI --> SFTP : Save To\n/Upload/CAFI/
+
+' SFTP back to ETL
+SFTP --> ETL : Read File\n/Upload/CAFO/
+
+' CAFO on SFTP
+CAFO --> SFTP
+
+' External flows
+Adapter --> CRM : Update Fund\nTransfer Status
+Adapter --> Payment
+Payment --> API : Fund Transfer
+
+@enduml
