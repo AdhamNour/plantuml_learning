@@ -1,44 +1,53 @@
 @startuml CRM_Architecture
-title CRM Architecture
+
+hide stereotype
 
 skinparam rectangle {
   BackgroundColor<<crm_core>> #1565C0
   FontColor<<crm_core>> white
   BackgroundColor<<crm_api>> #90CAF9
   FontColor<<crm_api>> #0D47A1
-  BackgroundColor<<sftp>> #F9A825
-  FontColor<<sftp>> white
   BackgroundColor<<external>> #BDBDBD
   FontColor<<external>> #212121
+}
+skinparam database {
+  BackgroundColor #D9B44A
+  FontColor #212121
+}
+skinparam file {
+  BackgroundColor #D6D6E0
+  FontColor #212121
 }
 
 skinparam defaultFontName Arial
 skinparam shadowing false
-skinparam nodesep 45
-skinparam ranksep 55
+skinparam ArrowColor #333333
+skinparam nodesep 40
+skinparam ranksep 50
 
-rectangle "CRM System" as boundary #line.dashed {
+rectangle "CRM" as boundary #line.dashed {
   rectangle "CRM" as CRM <<crm_core>>
   rectangle "CRM Internal ETL" as ETL <<crm_core>>
+  file "CAFI\n(.csv)" as CAFI
   rectangle "CRM API" as API <<crm_api>>
 }
 
+database "Croatia SFTP\nServer Directory" as SFTP
 file "CAFO\n(.csv)" as CAFO
-rectangle "Croatia SFTP\nServer Directory" as SFTP <<sftp>>
-file "CAFI\n(.csv)" as CAFI
 
 rectangle "CRM Adapter" as Adapter <<external>>
 rectangle "Payment Service" as Payment <<external>>
 
 ' Internal ETL flows
-CRM --> ETL : Fetch Claims
-ETL --> CRM : Update Claim Status
+CRM -right-> ETL : Fetch Claims
+CRM <-up- ETL : Update Claim Status
 
 ' CRM <-> API
-CRM <--> API
+CRM -down-> API
+API -up-> CRM
 
 ' File generation and SFTP
-ETL --> CAFI : Generate
+ETL -right-> CAFI : Generate
 CAFI --> SFTP : Save To\n/Upload/CAFI/
 
 ' SFTP back to ETL
@@ -48,8 +57,7 @@ SFTP -left-> ETL : Read File\n/Upload/CAFO/
 CAFO --> SFTP
 
 ' External flows
-Adapter --> CRM : Update Fund\nTransfer Status
-Adapter -right-> Payment
+Adapter --> API : Update Fund\nTransfer Status
 Payment --> API : Fund Transfer
 
 @enduml
