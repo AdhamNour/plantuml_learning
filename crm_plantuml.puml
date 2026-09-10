@@ -1,5 +1,11 @@
 @startuml CRM_Architecture
 
+<style>
+rectangle {
+  HorizontalAlignment center
+}
+</style>
+
 hide stereotype
 
 skinparam rectangle {
