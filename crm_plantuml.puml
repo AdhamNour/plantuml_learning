@@ -42,14 +42,14 @@ ETL --> CAFI : Generate
 CAFI --> SFTP : Save To\n/Upload/CAFI/
 
 ' SFTP back to ETL
-SFTP --> ETL : Read File\n/Upload/CAFO/
+SFTP -left-> ETL : Read File\n/Upload/CAFO/
 
 ' CAFO on SFTP
 CAFO --> SFTP
 
 ' External flows
 Adapter --> CRM : Update Fund\nTransfer Status
-Adapter --> Payment
+Adapter -right-> Payment
 Payment --> API : Fund Transfer
 
 @enduml
