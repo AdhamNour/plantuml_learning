@@ -1,6 +1,7 @@
 @startuml CRM_Architecture
 
 hide stereotype
+left to right direction
 
 skinparam rectangle {
   BackgroundColor<<crm_core>> #1565C0
@@ -27,8 +28,8 @@ skinparam defaultFontName Arial
 skinparam shadowing false
 skinparam linetype ortho
 skinparam ArrowColor #333333
-skinparam nodesep 140
-skinparam ranksep 130
+skinparam nodesep 160
+skinparam ranksep 260
 
 rectangle "CRM" as crmBoundary #line.dashed {
   rectangle "CRM" as CRM <<crm_core>>
@@ -48,28 +49,28 @@ rectangle "CRM Adapter" as Adapter <<external>>
 rectangle "Payment Service" as Payment <<external>>
 
 ' CRM <-> ETL flows
-CRM -up-> ETL : Fetch Claims
-ETL -down-> CRM : Update Claim Status
+CRM --> ETL : Fetch Claims
+ETL --> CRM : Update Claim Status
 
 ' CRM <-> API
-CRM -down-> API
-API -up-> CRM
+CRM -left-> API
+API -right-> CRM
 
 ' File generation and SFTP
-ETL -right-> CAFI : Generate
-CAFI -up-> SFTP : Save To\n/Upload/CAFI/
+ETL --> CAFI : Generate
+CAFI --> SFTP : Save To\n/Upload/CAFI/
 
 ' SFTP back to ETL
-SFTP -down-> ETL : Read File\n/Upload/CAFO/
+SFTP --> ETL : Read File\n/Upload/CAFO/
 
 ' CAFO on SFTP
-CAFO -down-> SFTP
+CAFO --> SFTP
 
 ' Archive copies retained by the ETL
-ETL -left-> OOS : Archive Copy Of\nCAFI & CAFO
+ETL --> OOS : Archive Copy Of\nCAFI & CAFO
 
 ' External flows
-Adapter -up-> API : Update Fund\nTransfer Status
-Payment -up-> API : Fund Transfer
+Adapter --> API : Update Fund\nTransfer Status
+API --> Payment : Fund Transfer
 
 @enduml
