@@ -1,0 +1,15 @@
+/'!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/C4_Context.puml'/
+
+!pragma teoz true
+
+hide unlinked
+skinparam sequenceMessageAlign center
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+/'skinparam style strictuml'/
+skinparam sequence {
+    LifeLineBackgroundColor #A9DCDF
+    LifeLineBorderColor #368E92
+    ArrowColor #Black
+}

@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/component-diagram
+@startuml
+!include C4_Generic_Template.puml
+
+AddRelTag("dotted", $textColor="$ARROW_COLOR", $lineColor="$ARROW_COLOR", $lineStyle = DottedLine(), $legendText="a dotted relation")
+
+System_Boundary(bank, "Bank"){
+
+    System_Boundary(InformaticaComponent, "Informatica platform") {
+ 
+     System(JAVA, "Data Producer", $sprite="java", $tags="java_program")
+     System(CSV, "Generated CSV Files", $sprite="file_csv", $tags="csv_component")
+     System(JavaDataTransform, "Data Transformation", $sprite="java", $tags="java_program")
+     System(TransformCSV, "Transformed CSV Files", $sprite="file_csv", $tags="csv_component")
+     System(DBLoader, "Java DBLoader", $sprite="java", $tags="java_program")
+  }
+  System_Boundary(SourceSystem,"CoreBanking System") {
+    System(SRCApp, "T24 Database", $sprite="database", $tags="source_database")
+  }
+
+  System_Boundary(DWHSystem,"DWH System") {
+    System(DWHDB, "DWH Staging DB", $sprite="database", $tags="database_component")
+  }
+
+  
+}
+
+Rel(SRCApp,JAVA,"Pull Data via JDBC")
+Rel_R(JAVA,CSV,"Generate csv Files")
+Rel_R(CSV,JavaDataTransform,"Pull Data for Transformation")
+Rel(JavaDataTransform,TransformCSV,"Generate CSV Files")
+Rel_L(TransformCSV,DBLoader,"Pull Data")
+Rel(DBLoader,DWHDB,"Push Data")
+
+@enduml

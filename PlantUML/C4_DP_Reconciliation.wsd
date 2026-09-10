@@ -1,0 +1,79 @@
+@startuml
+'https://plantuml.com/component-diagram
+@startuml
+!include C4_Generic_Template.puml
+
+AddRelTag("dotted", $textColor="$ARROW_COLOR", $lineColor="$ARROW_COLOR", $lineStyle = DottedLine(), $legendText="a dotted relation")
+
+' Person(user, "user")
+
+
+System_Boundary(bank, "Croatia"){
+    
+    System_Boundary(DPSystem, "Data platform") {
+    
+  System_Boundary(DWHDatabase,"DWHDatabase") {
+    System(DWHDB, "DWH Database", $sprite="database", $tags="impacted_component")
+  }
+
+  System_Boundary(ExternalSystemSTG,"External Data") {
+    System(EtlDB, "ETL Database", $sprite="database", $tags="impacted_component")
+  }
+  }
+
+}
+  System_Boundary(TP, "Third Party") {
+  System(ARB, "NI System", $sprite="server", $tags="no_change")
+}
+
+Rel(EtlDB,ARB,"Pull Data Files")
+Rel_R(EtlDB,DWHDB,"ETL Pipeline")
+
+
+@enduml
+
+
+@startuml
+'https://plantuml.com/component-diagram
+@startuml
+!include C4_Generic_Template.puml
+
+AddRelTag("dotted", $textColor="$ARROW_COLOR", $lineColor="$ARROW_COLOR", $lineStyle = DottedLine(), $legendText="a dotted relation")
+
+' Person(user, "user")
+System_Boundary(ARBbank, "ARB"){
+    
+      System_Boundary(ARBPlatform, "ARB Platform") {
+      System(ARBServer, "ARB Server", $sprite="server", $tags="impacted_component")
+
+    }
+}
+
+System_Boundary(bank, "Nera"){
+
+    System_Boundary(DPSystem, "Data platform") {
+   
+  System_Boundary(DWHDatabase,"DWHDatabase") {
+    System(DWHDB, "DWH Database", $sprite="database", $tags="impacted_component")
+  }
+
+  System_Boundary(InformaticaDEI,"Informatica DEI Server") {
+    System(Etlserver, "ETL server", $sprite="server", $tags="impacted_component")
+  }
+  }
+  System_Boundary(N8N,"Workflow Automation") {
+    System(N8NApp, "N8N Application", $sprite="server", $tags="impacted_component")
+  }
+
+}
+  System_Boundary(TP, "Third Party") {
+  System(NI, "NI", $sprite="server", $tags="no_change")
+}
+
+Rel_U(N8NApp,NI,"Pull Data Files")
+Rel(N8NApp,Etlserver,"Push Data Files")
+Rel_R(Etlserver,DWHDB,"ETL Pipeline")
+Rel_L(DWHDB,ARBServer,"Push Data Files")
+
+
+@enduml

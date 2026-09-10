@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/component-diagram
+@startuml
+!include C4_Generic_Template.puml
+
+AddRelTag("dotted", $textColor="$ARROW_COLOR", $lineColor="$ARROW_COLOR", $lineStyle = DottedLine(), $legendText="a dotted relation")
+
+' Person(user, "user")
+
+
+System_Boundary(bank, "Croatia"){
+    
+    System_Boundary(DPSystem, "Data platform") {
+    
+   System_Boundary(BackEnd,"Backend Database") {
+    System(APP, "Limit/Scoring Database", $sprite="database", $tags="impacted_component")
+  }
+
+  System_Boundary(DWHDatabase,"DWH Database") {
+    System(DWHDB, "DWH Database", $sprite="database", $tags="impacted_component")
+  }
+  }
+    System_Boundary(CB, "CB Database") {
+  System(T24, "T24", $sprite="server", $tags="no_change")
+}
+
+}
+' Lay_U(Kafka,kong)
+
+Rel(T24,DWHDB,"Push Data")
+Rel_R(DWHDB,APP,"Push Data")
+
+
+@enduml
+
+

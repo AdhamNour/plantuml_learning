@@ -1,0 +1,96 @@
+@startuml
+'https://plantuml.com/component-diagram
+@startuml
+!include C4_Generic_Template.puml
+
+AddRelTag("dotted", $textColor="$ARROW_COLOR", $lineColor="$ARROW_COLOR", $lineStyle = DottedLine(), $legendText="a dotted relation")
+
+' Person(user, "user")
+
+
+System_Boundary(bank, "Croatia"){
+    
+    
+  System_Boundary(DWHDatabase,"Data platform") {
+    System(DWHDB, "DWH Database", $sprite="database", $tags="impacted_component")
+  }
+
+}
+  System_Boundary(TP, "ARB System") {
+  System(ARB, "ARB", $sprite="server", $tags="no_change")
+}
+
+System_Boundary(SM, "SIMAH Server") {
+  System(SMH, "SIMAH PORTAL", $sprite="server", $tags="no_change")
+}
+
+' Lay_U(Kafka,kong)
+
+Rel_L(ARB,DWHDB,"ETL Pipeline")
+Rel_R(ARB,SMH,"Portal Upload")
+
+
+@enduml
+
+
+@startuml
+'hide  spot
+hide circle
+title "DWH Database"
+
+entity SIMAH_REPORTING_DEFAULT {
+ BAD_DEBT: VARCHAR2
+BAL: VARCHAR2
+PREF: VARCHAR2
+PPRD: VARCHAR2
+STS: VARCHAR2
+STSDATE: VARCHAR2
+STSDAY: VARCHAR2
+STSMON: VARCHAR2
+STSYEAR: VARCHAR2
+AS_OF_DATE: DATE
+}
+
+entity SIMAH_REPORTING_REGULAR {
+ ACCOUNT: VARCHAR2
+AREF: VARCHAR2
+AOPN: VARCHAR2
+AOPND: VARCHAR2
+AOPNM: VARCHAR2
+AOPNY: VARCHAR2
+APRD: VARCHAR2
+ALMT: VARCHAR2
+ASAL: VARCHAR2
+AEXP: VARCHAR2
+AS_OF_DATE: DATE
+}
+
+entity SIMAH_REPORTING_REGULAR_V2 {
+ VERSION: VARCHAR2
+AVINST: VARCHAR2
+ADWNP: VARCHAR2
+ABPAY: VARCHAR2
+ADAMT: VARCHAR2
+AMAX: VARCHAR2
+ASP: VARCHAR2
+AS_OF_DATE: DATE
+}
+
+@enduml
+
+@startuml
+'hide  spot
+hide circle
+title "DWH Database"
+
+entity ARB_DATA_LOAD_EVENTS {
+SUBJECT_AREA: VARCHAR2
+TABLE_VIEW_NAME: VARCHAR2
+AS_OF_DATE: DATE
+LOAD_ID: NUMBER
+FLAG_CROATIA_DATA_LOAD: NUMBER
+FLAG_ARB_DATA_LOAD: NUMBER
+TS_CROATIA_DATA_LOAD: TIMESTAMP
+TS_ARB_DATA_LOAD: TIMESTAMP
+}
+@enduml

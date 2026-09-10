@@ -1,0 +1,116 @@
+@startuml
+'https://plantuml.com/component-diagram
+@startuml
+!include C4_Generic_Template.puml
+
+AddRelTag("dotted", $textColor="$ARROW_COLOR", $lineColor="$ARROW_COLOR", $lineStyle = DottedLine(), $legendText="a dotted relation")
+
+System_Boundary(bank, "Nera"){
+
+    System_Boundary(RPSystem, "Red Panda platform") {
+ 
+     System(SRCconnector, "Source Connector", $sprite="plug", $tags="impacted_component")
+     System(RPTopic, "RedPanda Topic", $sprite="queue", $tags="impacted_component")
+     System(SinkConnector, "RedPanda Sink Connector", $sprite="plug", $tags="impacted_component")
+  }
+  System_Boundary(SourceSystem,"SourceSystem Database") {
+    System(SRCApp, "Source System Database", $sprite="database", $tags="no_change")
+  }
+    System_Boundary(DataLake,"Data Lake") {
+    System(DLDB, "Data Lake Database", $sprite="database", $tags="impacted_component")
+  }
+  
+  
+System_Boundary(BusinessIntelligence,"Meta Base") {
+    System(BI, "BI Database", $sprite="dashboard", $tags="impacted_component")
+  }
+  
+}
+
+Rel(SRCApp,SRCconnector,"Pull Data")
+Rel_R(SRCconnector,RPTopic,"Push Data")
+Rel_R(RPTopic,SinkConnector,"Pull Data")
+Rel(SinkConnector,DLDB,"Push Data")
+Rel_L(DLDB,BI,"Push Data")
+
+@enduml
+
+
+@startuml
+'https://plantuml.com/component-diagram
+@startuml
+!include C4_Generic_Template.puml
+
+AddRelTag("dotted", $textColor="$ARROW_COLOR", $lineColor="$ARROW_COLOR", $lineStyle = DottedLine(), $legendText="a dotted relation")
+
+System_Boundary(bank, "Nera"){
+
+    System_Boundary(CKSystem, "Confluent Kafka platform") {
+ 
+	 System(SRCCKTopic, "Confluent Kafka Topic", $sprite="queue", $tags="no_change")
+     System(KSQL, "K SQL Transformation", $sprite="database", $tags="impacted_component")
+     System(TGTCKTopic, "Confluent Kafka Topic", $sprite="queue", $tags="new_component")
+	 System(CSinkConnector, "Confluent Sink Connector", $sprite="plug", $tags="impacted_component")
+  }
+ 
+    System_Boundary(DataLake,"Data Lake") {
+    System(DLDB, "Data Lake Database", $sprite="database", $tags="impacted_component")
+  }
+  
+}
+
+Rel_R(SRCCKTopic,KSQL,"Data Transforamtion")
+Rel_R(KSQL,TGTCKTopic,"Push Data")
+Rel_R(TGTCKTopic,CSinkConnector,"Pull Data")
+Rel_D(CSinkConnector,DLDB,"Push Data")
+
+@enduml
+
+
+
+@startuml
+'https://plantuml.com/component-diagram
+@startuml
+!include C4_Generic_Template.puml
+
+AddRelTag("dotted", $textColor="$ARROW_COLOR", $lineColor="$ARROW_COLOR", $lineStyle = DottedLine(), $legendText="a dotted relation")
+
+' Person(user, "user")
+
+
+System_Boundary(bank, "Nera System"){
+  System_Boundary(CBDatabase,"Core Banking platform") {
+    System(CBDB, "Core Banking Database", $sprite="database", $tags="impacted_component")
+  }  
+
+  System_Boundary(CRMDatabase,"CRM platform") {
+    System(CRMDB, "CRM Database", $sprite="database", $tags="impacted_component")
+  }
+System_Boundary(APPDatabase,"MicroService platform") {
+    System(APPDB, "MicroService Database", $sprite="database", $tags="impacted_component")
+  }
+    
+  System_Boundary(DWHDatabase,"Data platform") {
+    System(DWHDB, "DWH Database", $sprite="database", $tags="impacted_component")
+  }
+  System_Boundary(T2,"T2 platform") {
+    System(T2API, "T2 Notification", $sprite="plug", $tags="impacted_component")
+  }
+
+}
+
+	System_Boundary(NI, "NI Platform") {
+	System(NIDB, "NI System", $sprite="database", $tags="impacted_component")
+}
+  System_Boundary(ARBBank, "ARB Counter Fraud Data Lake") {
+  System(ARB, "ARB", $sprite="database", $tags="impacted_component")
+}
+
+Rel(CBDB,DWHDB,"Data Push")
+Rel(T2API,DWHDB,"Data Push")
+Rel(CRMDB,DWHDB,"Data Pull")
+Rel(APPDB,DWHDB,"Data Pull")
+Rel(NIDB,DWHDB,"Data Pull")
+Rel_R(DWHDB,ARB,"ETL Data Push")
+
+@enduml

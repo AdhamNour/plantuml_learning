@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/component-diagram
+@startuml
+!include C4_Generic_Template.puml
+
+AddRelTag("dotted", $textColor="$ARROW_COLOR", $lineColor="$ARROW_COLOR", $lineStyle = DottedLine(), $legendText="a dotted relation")
+
+' Person(user, "user")
+
+
+System_Boundary(bank, "Croatia"){
+    
+      System_Boundary(alphaPlatform, "Alpha Platform") {
+      '  System(kong, "Kong API", $sprite="kong", $tags="impacted_component")
+      System(TrxService, "Transactions Service", $sprite="java", $tags="impacted_component")
+      System(TrnxDatabase, "Transactions Database", $sprite="database", $tags="impacted_component")
+
+    }
+
+
+    System_Boundary(DPSystem, "Data platform") {
+    
+  System_Boundary(DWHDatabase,"DWHDatabase") {
+    System(DWHDB, "DWH Database", $sprite="database", $tags="impacted_component")
+  }
+
+  System_Boundary(ExternalSystemSTG,"External Data") {
+    System(EtlDB, "ETL Database", $sprite="database", $tags="impacted_component")
+  }
+  }
+
+}
+  System_Boundary(TP, "Third Party") {
+  System(NI, "NI", $sprite="server", $tags="no_change")
+}
+
+' Lay_U(Kafka,kong)
+
+Rel(NI,EtlDB,"Push Data")
+Rel_R(EtlDB,DWHDB,"ETL Pipeline")
+Rel_R(DWHDB,TrxService,"Get Bulk Categories")
+Rel_R(DWHDB,TrnxDatabase,"Insert AIO Transactions")
+
+
+@enduml

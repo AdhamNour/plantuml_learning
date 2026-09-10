@@ -1,0 +1,185 @@
+@startuml
+'hide  spot
+hide circle
+title "DWH Database"
+entity FCT_ARB_ET_OFFLINE_RATE {
+  PK: PROFILE, FROM_CURRENCY, TO_CURRENCY, RATE
+  --
+CHANNEL:        VARCHAR2
+PROFILE: VARCHAR2
+FROM_CURRENCY:   VARCHAR2
+TO_CURRENCY:    VARCHAR2
+RATE:    NUMBER
+RATE_ID:   NUMBER
+TRANSACTION_ID:             VARCHAR2
+TRANSACTION_KEY:          VARCHAR2
+RATE_TIMESTAMP:          TIMESTAMP
+COVER_RATE: NUMBER
+AS_OF_DATE: DATE
+EXTRACTION_TIMESTAMP: TIMESTAMP
+EXTRACTION_TIME_SLOT: NUMBER
+WORKFLOW_RUN_ID: NUMBER
+}
+@enduml
+
+@startuml
+'hide  spot
+hide circle
+title "DWH Database"
+
+entity DIM_CUSTOMER_HIST {
+  PK: CUST_KEY,TO_DATE
+  --
+  CUSTOMER_ID: VARCHAR2
+  CUST_KEY: NUMBER
+  TO_DATE: DATE
+}
+
+entity FCT_LIMIT_HIST {
+  PK: CUSTOMER_KEY, PRODUCT_ID,TO_DATE
+  --
+  PRODUCT_ID: VARCHAR2
+  CUST_KEY: NUMBER
+  TO_DATE: DATE
+}
+
+entity REF_APP_LIMIT_LEVEL_HIST {
+  PK: LEVEL_LIMIT_KEY,TO_DATE
+  --
+  LEVEL_LIMIT_ID: VARCHAR2
+  LEVEL_LIMIT_KEY: NUMBER
+  TO_DATE: DATE
+}
+
+entity REF_APP_LIMIT_PRODUCT_HIST {
+  PK: PRODUCT_KEY,TO_DATE
+  --
+  PRODUCT_ID: VARCHAR2
+  PRODUCT_KEY: NUMBER
+  TO_DATE: DATE
+}
+
+entity REF_APP_LIMIT_SEGMENT_HSIT {
+  PK: SEGMENT_KEY,TO_DATE
+  --
+  SEGMENT_LIMIT_ID: VARCHAR2
+  SEGMENT_KEY: NUMBER
+  TO_DATE: DATE
+}
+
+entity REF_APP_LIMIT_WEIGHT_POINTS_HIST {
+  PK: WEIGHTS_POINTS_KEY,TO_DATE
+  --
+  CODE: VARCHAR2
+  WEIGHTS_POINTS_KEY: NUMBER
+  TO_DATE: DATE
+}
+
+entity REF_APP_ISO_CURRENCY_HIST {
+  PK: ISO_CURRENCY_KEY,TO_DATE
+  --
+  ISO_CURRENCY_CODE: VARCHAR2
+  ISO_CURRENCY_KEY: NUMBER
+  TO_DATE: DATE
+}
+
+@enduml
+
+
+@startuml
+'hide  spot
+hide circle
+title "CRM Database"
+
+entity cro_customersubscriptionplanBase {
+  PK: cro_customersubscriptionplanId
+  --
+  cro_customersubscriptionplanId: text
+}
+
+entity cro_partnerrequestBase {
+  PK: cro_partnerrequestId
+  --
+  cro_partnerrequestId: text
+}
+
+entity cro_subscriptiongroupofvoucherBase {
+  PK: cro_subscriptiongroupofvoucherId
+  --
+  cro_subscriptiongroupofvoucherId: text
+}
+
+entity cro_subscriptionpartnershipBase {
+  PK: cro_subscriptionpartnershipId
+  --
+  cro_subscriptionpartnershipId: text
+}
+
+entity cro_subscriptionvoucherBase {
+  PK: cro_subscriptionvoucherBase
+  --
+  cro_subscriptionvoucherBase: text
+}
+
+@enduml
+
+@startuml
+'hide  spot
+hide circle
+title "Authetication Database"
+
+entity auth_biometrics_type {
+  PK: ID
+  --
+  ID: NUMBER
+}
+
+entity auth_blocked_devices {
+  PK: ID
+  --
+  ID: NUMBER
+}
+
+entity auth_configuration {
+  PK: ID
+  --
+  ID: NUMBER
+}
+
+entity auth_device_os_type {
+  PK: ID
+  --
+  ID: NUMBER
+}
+
+entity auth_device_status_type {
+  PK: ID
+  --
+  ID: NUMBER
+}
+
+entity auth_login_type {
+  PK: ID
+  --
+  ID: NUMBER
+}
+
+entity auth_scoring_events {
+  PK: ID
+  --
+  ID: NUMBER
+}
+
+entity auth_user_devices {
+  PK: ID
+  --
+  ID: NUMBER
+}
+
+entity auth_user_sessions {
+  PK: ID
+  --
+  ID: NUMBER
+}
+
+@enduml

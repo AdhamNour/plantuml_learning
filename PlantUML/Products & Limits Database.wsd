@@ -1,0 +1,195 @@
+@startuml
+hide circle
+title "Products & Limits Database"
+
+
+entity Products {
+    *product_id Long <<PK>>
+    ---
+    product_code varchar2
+    product_name nvarchar2
+    product_category varchar2
+    is_active_flag varchar2
+    created_on timestamp
+    updated_on timestamp
+}
+
+entity Customer_Limit {
+    *customer_limit_id varchar2 <<PK>>
+    ---
+    *segment_id <<FK>>
+    crm_id varchar2 
+    points integer
+    global_limit float
+    cumulative_global_limit float
+    nafath_count integer
+    updated_before_flag varchar2
+    first_transaction_timestamp timestamp
+    post_colling_done varchar2
+    is_active_flag varchar2
+    created_on timestamp
+    updated_on timestamp
+}
+
+entity Configured_Customer_Product_Limit {
+    *customer_product_limit_id varchar2 <<PK>>
+    ---
+    *customer_limit_id varchar2 <<FK>>
+    *product_id varchar2 <<FK>>
+    limit_amount float
+    max_transaction_amount float
+    max_transaction_count integer
+    created_on timestamp
+    updated_on timestamp
+}
+
+entity Cumulative_Customer_Product_Limit {
+    *customer_product_limit_id varchar2 <<PK>>
+    ---
+    *customer_limit_id varchar2 <<FK>>
+    *product_id varchar2 <<FK>>
+    cumulative_amount float
+    cumulative_transaction_count integer
+    created_on timestamp
+    updated_on timestamp
+}
+
+
+
+entity Level_Limit {
+    *level_limit_id varchar2 <<PK>>
+    ---
+    *lowest_points_value integer
+    *greatest_points_value integer
+    *limit_percentage float
+    description varchar2
+    is_active_flag varchar2
+    created_on timestamp
+    updated_on timestamp
+}
+
+entity Segment_Limit{
+    *segment_limit_id varchar2 <<PK>>
+    ---
+    *customer_type varchar2
+    *global_limit_amount float
+    is_active_flag varchar2
+    created_on timestamp
+    updated_on timestamp
+}
+
+
+entity Weights_Points{
+    *weights_points_id varchar2 <<PK>>
+    ---
+    code varchar2
+    description varchar2
+    arabic_description varchar2
+    title varchar2
+    arabic_title varchar2
+    *points integer
+    is_active_flag varchar2
+    is_managed_by_app_flag varchar2
+    occurrence_flag varchar2
+    critical_flag varchar2
+    frequency integer
+    created_on timestamp
+    updated_on timestamp
+    redirect_destination_link varchar2 
+}
+
+entity Actions_Customer{
+    *actions_customer_id varchar2 <<PK>>
+    ---
+    *weights_points_id varchar2 <<FK>>
+    *customer_cumulative_id varchar2 <<FK>>
+    created_on timestamp
+    updated_on timestamp
+}
+
+entity FDFR_Beneficiaries {
+    *FDFR_beneficiary_id varchar2 <<PK>>
+    ---
+    beneficiary_id varchar2
+    processed varchar2
+    reported_date date
+    created_on timestamp
+    updated_on timestamp
+}
+entity Saving_Pot_Accounts {
+    *saving_pot_account_id varchar2 <<PK>>
+    ---
+    account_id varchar2
+    current_balance float
+    opening_date date
+    customer_id varchar2 
+    processed varchar2
+    created_on timestamp
+    updated_on timestamp
+}
+
+entity High_Risk_Countries {
+    *id number <<PK>>
+    ---
+    *country varchar2
+    *country_code varchar2
+    active_flag number
+    created_by varchar2
+    created_on timestamp
+    updated_on timestamp
+    updated_by varchar2
+}
+entity Failed_Critical_Status {
+    *failed_critical_status_id varchar2 <<PK>>
+    ---
+    retry_count float
+    customer_id varchar2
+    created_on timestamp
+    updated_on timestamp
+}
+
+entity POS_Transactions {
+    pos_count varchar2
+    customer_id varchar2
+    cb_reported_date date
+    ni_reported_date date
+    created_on timestamp
+    updated_on timestamp
+}
+entity Configuration {
+    *configuration_id varchar2 <<PK>>
+    ---
+    key varchar2
+    value varchar2
+    is_active_flag varchar2
+    created_on timestamp
+    updated_on timestamp
+}
+
+entity Aged_Accounts {
+    *aged_accounts_id varchar2 <<PK>>
+    ---
+    account_id varchar2
+    customer_id varchar2
+    age_account_in_years integer
+    created_on timestamp
+    updated_on timestamp
+}
+
+' ===========================
+' Relationships
+' ===========================
+Configured_Customer_Product_Limit }|..|| Customer_Limit
+Cumulative_Customer_Product_Limit }|..|| Customer_Limit
+Configured_Customer_Product_Limit }|..|| Products
+Cumulative_Customer_Product_Limit }|..|| Products
+
+Actions_Customer }|..|| Customer_Limit
+Actions_Customer }|..|| Weights_Points
+
+
+Segment_Limit ||..|| Customer_Limit
+
+
+
+@enduml

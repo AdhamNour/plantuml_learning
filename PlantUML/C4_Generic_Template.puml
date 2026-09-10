@@ -1,0 +1,60 @@
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/C4_Context.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/C4_Component.puml
+
+skinparam DefaultFontSize 10
+skinparam componentStyle rectangle
+
+SHOW_PERSON_OUTLINE()
+
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/sms.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/credit_card.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/input.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/import_export.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/plug.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/money_bill_wave.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/react.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/node_js.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/scriptcs.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/file.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/file_alt.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/file_csv.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/queue.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/java.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/server.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/database.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/notifications.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/angular.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/angularjs.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/credit_card.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/dashboard.puml
+!include /mnt/c/Users/anhassan/plantuml_learning/PlantUML/icons/shopping_cart.puml
+!global $LEGEND_TITLE_COLOR = "#Gray"
+
+AddElementTag("new_component", $bgColor="#Purple", $fontColor="#FFFFFF", $shadowing="true")
+AddElementTag("no_change", $bgColor="#Gray", $fontColor="#FFFFFF", $shadowing="true")
+AddElementTag("impacted_component", $bgColor="#Darkorange",$fontColor="#FFFFFF", $shadowing="true")
+AddElementTag("source_database", $bgColor="#Green",$fontColor="#FFFFFF", $shadowing="true")
+AddElementTag("Java_Program", $bgColor="#SaddleBrown",$fontColor="#FFFFFF", $shadowing="true")
+AddElementTag("csv_component", $bgColor="#Darkorange",$fontColor="#FFFFFF", $shadowing="true")
+AddElementTag("database_component", $bgColor="#Purple",$fontColor="#FFFFFF", $shadowing="true")
+AddElementTag("react_Application", $bgColor="#Cyan",$fontColor="#000000", $shadowing="true")
+
+skinparam sequenceMessageAlign center
+skinparam style stricture
+hide footbox
+hide unlinked
+skinparam sequence {
+    LifeLineBackgroundColor #A9DCDF
+    LifeLineBorderColor #368E92
+    group {
+    FontStyle plain
+    BackGroundColor wight
+  }
+  groupHeader {
+    FontStyle plain
+    FontColor red
+  }
+
+}
+
+LAYOUT_TOP_DOWN()
