@@ -25,9 +25,10 @@ skinparam file {
 
 skinparam defaultFontName Arial
 skinparam shadowing false
+skinparam linetype ortho
 skinparam ArrowColor #333333
-skinparam nodesep 70
-skinparam ranksep 50
+skinparam nodesep 140
+skinparam ranksep 130
 
 rectangle "CRM" as crmBoundary #line.dashed {
   rectangle "CRM" as CRM <<crm_core>>
@@ -47,28 +48,28 @@ rectangle "CRM Adapter" as Adapter <<external>>
 rectangle "Payment Service" as Payment <<external>>
 
 ' CRM <-> ETL flows
-CRM --> ETL : Fetch Claims
-ETL --> CRM : Update Claim Status
+CRM -up-> ETL : Fetch Claims
+ETL -down-> CRM : Update Claim Status
 
 ' CRM <-> API
-CRM --> API
-API --> CRM
+CRM -down-> API
+API -up-> CRM
 
 ' File generation and SFTP
-ETL --> CAFI : Generate
-CAFI --> SFTP : Save To\n/Upload/CAFI/
+ETL -right-> CAFI : Generate
+CAFI -up-> SFTP : Save To\n/Upload/CAFI/
 
 ' SFTP back to ETL
-SFTP --> ETL : Read File\n/Upload/CAFO/
+SFTP -down-> ETL : Read File\n/Upload/CAFO/
 
 ' CAFO on SFTP
-CAFO --> SFTP
+CAFO -down-> SFTP
 
 ' Archive copies retained by the ETL
-ETL --> OOS : Archive Copy Of\nCAFI & CAFO
+ETL -left-> OOS : Archive Copy Of\nCAFI & CAFO
 
 ' External flows
-Adapter --> API : Update Fund\nTransfer Status
-Payment --> API : Fund Transfer
+Adapter -up-> API : Update Fund\nTransfer Status
+Payment -up-> API : Fund Transfer
 
 @enduml
