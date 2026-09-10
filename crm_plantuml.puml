@@ -1,5 +1,11 @@
 @startuml CRM_Architecture
 
+<style>
+rectangle {
+  HorizontalAlignment center
+}
+</style>
+
 hide stereotype
 
 
@@ -32,7 +38,7 @@ skinparam nodesep 140
 skinparam ranksep 130
 
 rectangle "CRM System" as crmBoundary #line.dashed {
-  database "<&hard-drive>CRM Database" as CRM <<crm_core>>
+  rectangle "<size:32><&hard-drive></size>\nCRM Database" as CRM <<crm_core>>
   ' rectangle "CRM API" as API <<crm_api>>
 }
 
